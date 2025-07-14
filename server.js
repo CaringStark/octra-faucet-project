@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const FAUCET_AMOUNT = 1; // fixed token amount per request
 const CLI_PATH = path.resolve(process.env.CLIPATH || 'octra_pre_client/cli.py');
