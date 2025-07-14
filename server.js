@@ -10,7 +10,7 @@ app.use(cors());
 const port = process.env.PORT || 3000;
 
 const FAUCET_AMOUNT = 1; // fixed token amount per request
-const CLI_PATH = path.resolve(process.env.CLIPATH || 'cli.py');
+const CLI_PATH = 'cli.py';
 const PYTHON = process.env.PYTHON || 'python3';
 
 app.use(bodyParser.json());
@@ -56,7 +56,10 @@ app.post('/request-tokens', (req, res) => {
   const cmd = `${PYTHON} ${CLI_PATH} --command transfer --to ${address} --amount ${FAUCET_AMOUNT}`;
   console.log('\n📤 Running faucet command:\n', cmd); // <-- Debug print
 
-  exec(cmd, { cwd: 'octra_pre_client' }, (error, stdout, stderr) => {
+  exec(
+  `${PYTHON} ${CLI_PATH} --command transfer --to ${address} --amount ${FAUCET_AMOUNT}`,
+  { cwd: 'octra_pre_client' },
+  (error, stdout, stderr) => {
 
   if (error) {
     console.error('❌ CLI Error:', error);
