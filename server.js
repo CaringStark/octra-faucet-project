@@ -10,8 +10,8 @@ app.use(cors());
 const port = process.env.PORT || 3000;
 
 const FAUCET_AMOUNT = 1; // fixed token amount per request
-const CLI_PATH = path.resolve(process.env.CLIPATH || 'octra_pre_client/cli.py');
-const PYTHON = path.resolve(process.env.PYTHON || 'octra_pre_client/venv/bin/python');
+const CLI_PATH = path.resolve(process.env.CLIPATH || 'cli.py');
+const PYTHON = path.resolve(process.env.PYTHON || 'python3');
 
 app.use(bodyParser.json());
 const rateLimitMap = new Map(); // Store address into lastRequestTime
