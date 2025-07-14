@@ -1,9 +1,12 @@
 #!/bin/bash
 
-# Install Node.js dependencies
+# Install Node dependencies
 npm install
 
-# Set up Python venv and install packages inside it
-python3 -m venv octra_pre_client/venv
-source octra_pre_client/venv/bin/activate
-pip install --prefer-binary -r octra_pre_client/requirements.txt
+# Install pipx if not already available
+python3 -m ensurepip --upgrade
+python3 -m pip install --upgrade pip pipx
+python3 -m pipx ensurepath
+
+# Install Python requirements into isolated environment
+pipx install . --spec "aiohttp pynacl pyperclip"
