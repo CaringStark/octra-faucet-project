@@ -1,0 +1,4 @@
+node_modules
+.env
+octra_pre_client/venv/
+octra_pre_client/wallet.json
