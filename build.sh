@@ -1,10 +1,9 @@
 #!/bin/bash
+
+# Install Node.js dependencies
 npm install
 
-# Create Python virtual environment inside the project
+# Set up Python venv and install packages inside it
 python3 -m venv octra_pre_client/venv
-
-# Activate it and install dependencies
 source octra_pre_client/venv/bin/activate
-pip install --upgrade pip
-pip install -r octra_pre_client/requirements.txt
+pip install --prefer-binary -r octra_pre_client/requirements.txt
