@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Create virtual environment
-python3 -m venv venv
+# Step 1: Create virtualenv
+python3 -m venv .venv
 
-# Activate virtual environment
-source venv/bin/activate
+# Step 2: Activate it
+source .venv/bin/activate
 
-# Upgrade pip & install requirements
+# Step 3: Install requirements
 pip install --upgrade pip
 pip install -r octra_pre_client/requirements.txt
