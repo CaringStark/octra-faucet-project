@@ -17,3 +17,7 @@
     "express": "^5.1.0"
   }
 }
+"scripts": {
+  "start": "node server.js",
+  "build": "bash build.sh"
+}
