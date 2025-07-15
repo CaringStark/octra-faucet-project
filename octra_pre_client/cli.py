@@ -9,6 +9,9 @@ import hmac
 import ssl
 import signal
 import sys    ####### I added this line
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 c = {'r': '\033[0m', 'b': '\033[34m', 'c': '\033[36m', 'g': '\033[32m', 'y': '\033[33m', 'R': '\033[31m', 'B': '\033[1m', 'bg': '\033[44m', 'bgr': '\033[41m', 'bgg': '\033[42m', 'w': '\033[37m'}
 
@@ -71,28 +74,20 @@ async def awaitkey():
 def ld():
     global priv, addr, rpc, sk, pub
     try:
-        wallet_path = os.path.expanduser("~/.octra/wallet.json")
-        if not os.path.exists(wallet_path):
-            wallet_path = "wallet.json"
-        
-        with open(wallet_path, 'r') as f:
-            d = json.load(f)
-        
-        priv = d.get('priv')
-        addr = d.get('addr')
-        rpc = d.get('rpc', 'http://localhost:8080')
-        
+        priv = os.getenv("PRIVATE_KEY")
+        addr = os.getenv("ADDRESS")
+        rpc = os.getenv("OCTRA_RPC", "http://localhost:8080")
+
         if not priv or not addr:
             return False
-            
-        if not rpc.startswith('https://') and 'localhost' not in rpc:
-            print(f"{c['R']}⚠️  WARNING: Using insecure HTTP connection!{c['r']}")
-            time.sleep(2)
-            
+
+        import base64, nacl.signing
         sk = nacl.signing.SigningKey(base64.b64decode(priv))
         pub = base64.b64encode(sk.verify_key.encode()).decode()
+
         return True
-    except:
+    except Exception as e:
+        print("load error:", str(e))
         return False
 
 def fill():
