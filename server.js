@@ -10,8 +10,8 @@ app.use(cors());
 const port = process.env.PORT || 3000;
 
 const FAUCET_AMOUNT = 1; // fixed token amount per request
-const CLI_PATH = 'cli.py';
-const PYTHON = './.venv/bin/python3';
+const CLI_PATH = process.env.CLIPATH || 'cli.py';
+const PYTHON = process.env.PYTHON || 'python3';
 
 app.use(bodyParser.json());
 const rateLimitMap = new Map(); // Store address into lastRequestTime
