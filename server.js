@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 
 const FAUCET_AMOUNT = 1; // fixed token amount per request
 const CLI_PATH = 'cli.py';
-const PYTHON = 'python3';
+const PYTHON = './.venv/bin/python3';
 
 app.use(bodyParser.json());
 const rateLimitMap = new Map(); // Store address into lastRequestTime
