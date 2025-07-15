@@ -2,3 +2,4 @@ aiohttp
 pynacl
 pyperclip
 cryptography
+python-dotenv
