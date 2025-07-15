@@ -1,4 +1,2 @@
-"scripts": {
-  "start": "node server.js",
-  "build": "bash build.sh"
-}
+#!/bin/bash
+pip install -r octra_pre_client/requirements.txt
