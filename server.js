@@ -11,15 +11,15 @@ const app = express();
 app.use(cors());
 const port = process.env.PORT || 3000;
 
-const FAUCET_AMOUNT = 1; // fixed token amount per request
+const FAUCET_AMOUNT = 5; // fixed token amount per request
 const CLI_PATH = 'cli.py';
 const PYTHON = process.env.PYTHON || 'python3';
 
 app.use(bodyParser.json());
 const rateLimitMap = new Map(); // Store address into lastRequestTime
 const ipRateLimitMap = new Map(); // Store IP into lastRequestTime
-const RATE_LIMIT_SECONDS = 21600; // 1 request every 6 hours
-const IP_RATE_LIMIT_SECONDS = 21600; // 1 request every 6 hours
+const RATE_LIMIT_SECONDS = 43200; // 1 request every 12 hours
+const IP_RATE_LIMIT_SECONDS = 43200; // 1 request every 12 hours
 
 app.post('/request-tokens', (req, res) => {
   const address = req.body.address;
