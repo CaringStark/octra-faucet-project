@@ -17,13 +17,10 @@ const PYTHON = process.env.PYTHON || 'python3';
 
 app.use(bodyParser.json());
 const rateLimitMap = new Map(); // Store address into lastRequestTime
-const ipRateLimitMap = new Map(); // Store IP into lastRequestTime
 const RATE_LIMIT_SECONDS = 43200; // 1 request every 12 hours
-const IP_RATE_LIMIT_SECONDS = 43200; // 1 request every 12 hours
 
 app.post('/request-tokens', (req, res) => {
   const address = req.body.address;
-  const ip = req.ip;
   const now = Date.now();
 
   // moved this to the top, has to be done first
@@ -39,23 +36,14 @@ app.post('/request-tokens', (req, res) => {
     console.log(`⏳ Address rate limit hit: ${address} at ${new Date().toISOString()}`);
     return res.status(429).json({
       error: 'Rate limit exceeded',
+      reason: 'you can only request tokens once every 12 hours',
       nextRequestIn: `${Math.ceil((RATE_LIMIT_SECONDS * 1000 - (now - lastRequestTime)) / 1000)} seconds`
     });
   }
 
-  // moved this to be below wallet checks, will now run only after wallet passes validation
-  const ipLast = ipRateLimitMap.get(ip) || 0;
-  if (now - ipLast < IP_RATE_LIMIT_SECONDS * 1000) {
-    console.log(`⏳ IP rate limit hit: ${ip} (address: ${address}) at ${new Date().toISOString()}`);
-    return res.status(429).json({
-      error: 'IP rate limit exceeded',
-      nextRequestIn: `${Math.ceil((IP_RATE_LIMIT_SECONDS * 1000 - (now - ipLast)) / 1000)} seconds`
-    });
-  }
 
   // now these save those info after passing checks
   rateLimitMap.set(address, now);
-  ipRateLimitMap.set(ip, now);
 
   // execution command from here!! Be Careful
   const cmd = `${PYTHON} ${CLI_PATH} --command transfer --to ${address} --amount ${FAUCET_AMOUNT}`;
